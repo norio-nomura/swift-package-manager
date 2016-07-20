@@ -32,6 +32,10 @@ struct UserToolchain: Toolchain {
     var platformArgsSwiftc: [String] {
         return ["-target", "x86_64-apple-macosx10.10", "-sdk", sysroot!]
     }
+#elseif os(Linux)
+    let platformArgsClang: [String] = []
+    // add hoc workaround for requirement of "-fblocks" described in https://github.com/apple/swift-corelibs-libdispatch/pull/94
+    let platformArgsSwiftc: [String] = ["-Xcc", "-fblocks"]
 #else
     let platformArgsClang: [String] = []
     let platformArgsSwiftc: [String] = []
